@@ -28,11 +28,6 @@ func (casbinService *CasbinService) UpdateCasbin(AuthorityID uint, casbinInfos [
 	authorityId := strconv.Itoa(int(AuthorityID))
 	casbinService.ClearCasbin(0, authorityId)
 	rules := [][]string{}
-	/*
-	for _, v := range casbinInfos {
-		rules = append(rules, []string{authorityId, v.Path, v.Method})
-	}
-	*/
 	//做权限去重处理
 	deduplicateMap := make(map[string]bool)
 	for _, v := range casbinInfos {
