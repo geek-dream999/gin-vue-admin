@@ -28,7 +28,10 @@ func (casbinService *CasbinService) UpdateCasbin(AuthorityID uint, casbinInfos [
 	authorityId := strconv.Itoa(int(AuthorityID))
 	casbinService.ClearCasbin(0, authorityId)
 	rules := [][]string{}
-	//做权限去重处理
+	for _, v := range casbinInfos {
+		rules = append(rules, []string{authorityId, v.Path, v.Method})
+	}
+	/*//做权限去重处理
 	deduplicateMap := make(map[string]bool)
 	for _, v := range casbinInfos {
 		key := authorityId + v.Path + v.Method
@@ -36,7 +39,7 @@ func (casbinService *CasbinService) UpdateCasbin(AuthorityID uint, casbinInfos [
 			deduplicateMap[key] = true
 			rules = append(rules, []string{authorityId, v.Path, v.Method})
 		}
-	}
+	}*/
 	e := casbinService.Casbin()
 	success, _ := e.AddPolicies(rules)
 	if !success {
